@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <div ng-controller='ctrl'>
+        {{now}}
+        {{num}}
+        {{pi}}
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,self,PI){
+        $scope.now = self.a();
+        $scope.num = self.b();
+        $scope.pi = PI;
+    });
+    //第一个参数名称
+    //第二个依赖关系，推断式注入直接写functon，表示具体内容
+    app.factory('self',function($filter){
+        var d = $filter('date');
+        function getDate(){
+            return d(new Date(),'yyyy-mm-dd HH:mm:ss');
+
+        }
+        function getRand(){
+            return Math.random();
+        }
+        //将上面定义的function返回
+         return {
+             a:getDate,
+             b:getRand
+         }
+    })
+    ///value 设置不变值
+    app.value('PI',3.1415926);
+</script>
+
+</html>

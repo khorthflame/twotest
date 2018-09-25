@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app' ng-controller='ctrl' >
+    <input type="text" ng-change='fn1()' ng-model='aa'>+
+    <input type="text" ng-change='fn1()' ng-model='bb'>={{result}}
+    
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',['$scope',function($scope){
+        $scope.fn1 = function(){
+           var a = $scope.aa;
+           var b = $scope.bb;
+           /* if(a==undefined||a==''){
+               a=0;
+           }
+          
+           if(b==undefined||b==''){
+               b=0;
+           } */
+           //a=a||0;b=b||0;//这是上面的简便写法、
+           if(a==undefined||a==''||isNaN(a)){
+               $scope.aa = '';
+           }
+           if(b==undefined||b==''||isNaN(b)){
+               $scope.bb = '';
+           }
+           //a=parseInt(a)||0;
+           //b=parseInt(b)||0;
+           //这是增加了字符串的兼容效果
+           $scope.result = parseInt($scope.aa||0)+parseInt($scope.bb||0);
+        }
+    }])
+</script>
+
+</html>

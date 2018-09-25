@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <div ng-controller = 'ctrl'>
+        <button ng-click = 'send()'>点击发送</button>
+        <button ng-click='send2()'>有参get请求</button>
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,$http){
+        //有参get请求
+        $scope.send2 = function(){
+            $http({
+                url:'data2.php',
+                params:{'name':'张三','age':'12'}
+            }).success(function(result){
+                console.log(result);
+            });
+        }
+
+        $scope.send = function(){
+            //发送http请求
+            //无参的get请求
+            $http({
+                url:"./data.php"
+            }).success(function(result){
+                //result是从服务器获取的结果
+                console.log(result);
+            });
+        }
+    })
+</script>
+
+</html>

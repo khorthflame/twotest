@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <div ng-controller='ctrl'>
+        {{show}}<br>
+        {{str}}
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,self){
+        $scope.show = self.now();
+        $scope.str  = self.str('abdcsdf');
+    })
+    //定义服务
+    //通过app调用
+    //service有两个参数
+     //第一个字符串表示自定义服务的名称
+     //第二个数组，表示自定义服务依赖的对象以及自定义服务的具体内容，如果使用推断是注入，则第二个
+     //参数就是第一个function
+    //定义一个方法，用于返回当前已经格式化的时间
+    // app.service('self',['$filter',function($filter){}]) 行内写法
+    app.service('self',function($filter){
+        var d = $filter('date');
+        //定义返回当前时间的方法
+        this.now = function(){
+            return d(new Date(),'yyyy-mm-dd HH:mm:ss');
+        }
+        //将字符串改为大写
+        this.str = function(msg){
+            return msg.toUpperCase();
+        }
+    })
+    
+</script>
+
+</html>

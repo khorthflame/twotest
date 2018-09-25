@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <ul ng-controller='ctrl'>
+        <li>
+            uppercase:{{message|uppercase}}
+            {{time|date:"yyyy/MM/dd HH-mm-ss"}}
+        </li>
+        <li>
+            currency:{{money|currency:"￥"}}
+        </li>
+        <li>
+            {{obj}}<br />
+            {{obj|json}}<br />
+            {{stu}}
+        </li>
+        <li>
+            {{names | filter:'al'}}
+        </li>
+        <li>
+            limitTo:{{message | limitTo:-4}}
+        </li>
+        <li>
+            number:{{number|number}}<br>
+            number:{{number|number:6}}<br>
+        </li>
+        <li>
+            orderBy:{{numbers | orderBy}}<br><hr>
+            orderBy:{{numbers | orderBy:"":true}}<br>
+            {{names | orderBy}}<br>
+            {{stus | orderBy}}<br>
+            <hr>
+            {{stus | orderBy:"age":true}}
+            <hr><hr>
+        </li>
+        <li>
+            {{numbers | orderBy:'':'-'}}
+
+        </li>
+        <li ng-repeat='n in names'>
+            {{n | uppercase}}
+        </li><hr>
+        <li ng-repeat='n in names | orderBy'>
+                {{n | uppercase}}
+            </li>
+    </ul>
+</body>
+<script>
+    function StU(name,age){
+        this.name = name;
+        this.age = age;
+    }
+    var student = new StU('李四',20);
+    var app = angular.module('app', []);
+    app.controller('ctrl',['$scope',function($scope){
+        $scope.message = 'good study';
+        $scope.time = new Date();
+        $scope.money = 45;
+        $scope.obj = new Object();
+        $scope.obj.name = '张三';
+        $scope.obj.age = 23;
+        $scope.stu = student;
+        $scope.names = ['allen','dffd','fghfgh','rtr','dd'];
+        $scope.number = 12321342525;
+        $scope.numbers = [3,65,77,43,55];
+        $scope.stus = [
+            {id:101,name:'MI',age:23},
+            {id:101,name:'JJ',age:22},
+            {id:102,name:'DD',age:26},
+            {id:102,name:'RT',age:24}
+        ];
+
+    }])
+</script>
+
+</html>

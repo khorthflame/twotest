@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <ul ng-controller='ctrl'>
+        <li>
+            <input type="text" ng-model='aa'><br>
+            {{aa | uppercase}}<br>
+            {{aa | lowercase}}
+        </li>
+        <li>
+            {{str1 | limitTo:-5 | uppercase}}
+        </li>
+        <li>
+            <input type="text" ng-model='bb'><br>
+            {{bb | number:1}}
+        </li>
+        <li>
+            {{time | date:'yyyy年MM月dd日hh时mm分'}}
+        </li>
+        <li>
+            <hr>
+            {{stus | orderBy:['+id','-age']}}
+        </li>
+        <li>
+           <!-- {{stus | orderBy:['id','true']}} -->
+           {{stus | orderBy:'-id'}}
+        </li>
+        <li>
+            {{stus | filter:'a'}}<hr>
+            {{stus | filter:{name:'a'} }}
+        </li>
+    </ul>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',['$scope',function($scope){
+        $scope.number = 123244;
+        $scope.str = 'AAboiyYY';
+        $scope.str1 = 'abcdefg';
+        $scope.time = new Date();
+        $scope.stus = [
+            {id:101,name:'aI',age:23,grade:'a'},
+            {id:101,name:'JJ',age:22,grade:'b'},
+            {id:103,name:'DD',age:26,grade:'c'},
+            {id:102,name:'RT',age:24,grade:'d'}
+        ];
+    }])
+</script>
+
+</html>

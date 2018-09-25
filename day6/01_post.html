@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+    <div ng-controller ='ctrl'>
+        <button ng-click='send1()'>无参post请求</button>
+        <button ng-click='send2()'>有参post请求</button>
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,$http){
+        //无参
+        $scope.send1 = function(){
+            $http({
+                url:'data.php',
+                method:'post'
+
+            }).success(function(result){
+                console.log(result);
+            })
+      }
+    
+      //有参
+    $scope.send2 = function(){
+            $http({
+                url:'./data3.php',
+                method:'post',
+                //params:{'sname':'jack'}//post传参不能用params，而用data
+                //发送post请求（带有参数）时，需要设置headers，如果不设置，参数以get方式获取
+                headers:
+                {'Content-Type':'application/x-www-form-urlencoded'},
+                data:"sname='nick'&age='13'"
+
+            }).success(function(result){
+                console.log(result);
+            })
+      }
+    })
+</script>
+
+</html>

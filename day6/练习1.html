@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+   <div ng-controller = 'ctrl' >
+        {{num}}
+        <br><button ng-click='click()'>点击切换</button>
+        <div>
+        {{time}}
+        </div>
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,$interval,$filter){
+        $scope.num = 0;
+        $interval(function(){
+            
+            $scope.num = Math.floor(Math.random()*100);
+        },1000);
+        var id = 0;
+        var date = $filter('date');
+        $scope.click = function(){
+            
+            if(!id){
+                id = $interval(function(){
+                    $scope.time = date(new Date(),'yyyy-mm-dd hh:mm:ss')
+                },1000)
+            }else{
+                $interval.cancel(id);
+                id = null;
+            }
+         }
+
+    })
+</script>
+
+</html>

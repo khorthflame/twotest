@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+    <script src="../agu/angular-route.js"></script>
+</head>
+
+<body ng-app='app'>
+    <a href="#/a">首页</a>
+    <a href="#/b">信息页</a>
+    <a href="#/c">错误页</a>
+    <!-- ng-view展示视图或错误 -->
+    <div ng-view></div>
+</body>
+<script>
+    var app = angular.module('app', ['ngRoute']);
+    app.controller('ctrl',function($scope){
+        $scope.students = [
+        {"id":101,"name":"Jack","sex":"M"},
+      {"id":102,"name":"Mike","sex":"M"},
+      {"id":103,"name":"Lucy","sex":"F"},
+      {"id":104,"name":"Allen","sex":"F"},
+      {"id":105,"name":"Rose","sex":"F"},
+      {"id":106,"name":"Tom","sex":"M"}
+        ]
+    })
+    app.config(function($routeProvider){
+        $routeProvider.when('/',{
+           // redirectTo:"/a"
+           template:''
+        }).when('/a',{
+            template:'这是首页'
+        }).when('/b',{
+            templateUrl:'./show.html',
+            controller:'ctrl'
+        }).when('/c',{
+            template:'地址错误，点击<a href="#/">返回</a>'     
+        }).otherwise({
+            redirectTo:'/'
+        })
+    })
+</script>
+
+</html>

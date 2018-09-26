@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+    <script src="../agu/angular-route.js"></script>
+</head>
+
+<body ng-app='app'>
+    <div ng-view></div>
+</body>
+<script>
+    var app = angular.module('app', ['ngRoute']);
+    app.controller('ctrl',function($scope,$routeParams){
+        // 获取参数值
+        //使用￥scopeParams上点路由配置中冒号后面的属性
+        console.log($routeParams);
+        $scope.params = $routeParams.name;
+        $scope.params2 = $routeParams.age;
+    })
+    app.config(function($routeProvider){
+        $routeProvider.when('/',{
+            template:'<h1>INDEX</h1>'
+        }).when('/a/:id',{
+            template:'<h1>a请求返回的</h1>'
+        }).when('/b/:name/:age',{
+            templateUrl:'./params.html',
+            controller:'ctrl'
+        })
+    })
+</script>
+
+</html>

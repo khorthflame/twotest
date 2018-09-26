@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+    <script src="../agu/angular-route.js"></script>
+</head>
+
+<body ng-app='music'>
+    <div class="music">
+        <nav>
+            <a href="#/1">流行</a>
+            <a href="#/2">华语</a>
+            <a href="#/3">欧美</a>
+            <a href="#/4">日韩</a>
+        </nav>
+    </div>
+    <!-- 用来显示数据的区域 -->
+    <div ng-view></div>
+</body>
+<script>
+    //创建模块，声明依赖关系
+    var music = angular.module('music', ['ngRoute']);
+    //配置路由
+     music.config(["$routeProvider",function($routeProvider){
+         $routeProvider.when('/',{
+             redirectTo:'/1'//跳转到/1路由请求
+         }).when('/:id',{
+             templateUrl:'./music1.html',
+             controller:'ctrl'//获取数据发送给视图页面解析
+         }).otherwise({
+             redirectTo:'/1'
+         })
+     }])
+    //定义控制器
+    music.controller('ctrl',['$scope','$http','$routeParams',function($scope,$http,$routeParams){
+        var id = $routeParams.id;
+        console.log(id,$routeParams);
+        $http({
+            url:'./list.php',
+            params:{id:id}
+        }).success(function(result){
+            //$scope.music = result;
+            //筛选数组
+            var music = [];
+            console.log(result);
+            for(var i = 0;i<result.length;i++){
+                if(id==result[i].pid){
+                    
+                    music.push(result[i]);
+                }
+            }
+            $scope.music = music;
+        })
+    }])
+</script>
+
+</html>

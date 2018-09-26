@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+    <style>
+        .fa{position: relative;}
+        .one{position: absolute;
+            top:300px;
+        }
+        li{background: skyblue;}
+    </style>
+</head>
+
+<body ng-app='app'>
+    <div ng-controller='ctrl' class="fa">
+       <li ng-repeat = 'k in num'>{{k}}</li>
+       {{html}}
+        <div class="one">
+        <button ng-click='click()'>点击开始</button>
+       </div>
+    </div>
+</body>
+<script>
+    var app = angular.module('app', []);
+    app.controller('ctrl',function($scope,$interval){ 
+        var id = 0;
+        $scope.click = function(){
+            $scope.num = [];
+            $scope.html = null;
+                var xx = 0;
+                id = $interval(function(){
+                    $scope.num.push(Math.floor(Math.random()*100));  
+                    xx++;
+                    console.log(xx);
+                    if(xx>=5){  
+                $interval.cancel(id);
+                $scope.html = '中奖数字'+$scope.num;
+                xx=0;
+               }
+            },1000)  
+         }      
+    })
+</script>
+
+</html>

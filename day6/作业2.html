@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+</head>
+
+<body ng-app='app'>
+        <div ng-controller='ctrl'>
+            <button ng-click = 'send()'>获取数据</button><br>
+            <input type="text" ng-model='aa' name="" value='选择数据类型'>
+            <div>{{xx}}</div>
+           <div>
+               <table>
+                   <tr ng-repeat='stu in students'>
+                       <td>{{stu.id}}</td>
+                       <td>{{stu.name}}</td> 
+                       <td>{{stu.sex}}</td>
+                   </tr>
+               </table>
+           </div>
+        </div>
+    </body>
+    <script>
+        var app = angular.module('app', []);
+        app.controller('ctrl',function($scope,$http){
+            $scope.send = function(){
+                $http({
+                    url:"php.php"
+                }).success(function(result){
+                    $scope.students = [];
+                   
+                   if($scope.aa=='m'){
+                       $scope.students.push(result[0]);
+                       $scope.students.push(result[1]);
+                       $scope.students.push(result[5]);
+                       $scope.xx=null;
+                   }else if($scope.aa=='f'){
+                    $scope.students.push(result[2]);
+                       $scope.students.push(result[3]);
+                       $scope.students.push(result[4]);
+                       $scope.xx=null;
+                   }else{
+                    $scope.students = null;
+                    $scope.xx='请输入正确字母';
+                   }
+                   
+                })
+            }
+        })
+    </script>
+</html>

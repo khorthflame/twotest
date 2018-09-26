@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+    <title>Document</title>
+    <script src='../agu/angular.min.js'></script>
+    <script src="../agu/angular-route.js"></script>
+</head>
+
+<body ng-app='app'>
+  <a href="#/a">圆形</a>
+  <a href="#/b">方形</a>
+  <div ng-view></div>
+</body>
+<script>
+    var app = angular.module('app', ['ngRoute']);
+    
+    app.config(['$routeProvider',function($routeProvider){
+        $routeProvider.when('/',{
+            template:''
+        }).when('/a',{
+            templateUrl:'./dianji.html'
+           
+        }).when('/b',{
+            templateUrl:'./dianji2.html'
+        })
+    }])
+</script>
+
+</html>

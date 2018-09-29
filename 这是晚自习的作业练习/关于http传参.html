@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="agu/angular.min.js"></script>
+</head>
+<body>
+    <div ng-app='app' ng-controller='ctrl'>
+        <button ng-click='change()'>获取</button>
+        {{aa}} {{bb}}
+
+    </div>
+    <script>
+        var app = angular.module('app',[]);
+        app.controller('ctrl',function($scope,$http){
+            $scope.num = 'abc';
+            $scope.change=function(){
+                $http({
+                    url:'http.php',
+                    params:{'name':'张三','age':'33'}
+                }).success(function(result){
+                    console.log(result);
+                })
+            }
+        })
+
+    </script>
+</body>
+</html>

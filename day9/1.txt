@@ -1,0 +1,68 @@
+NodeJS
+创建服务器
+var http = require('http);
+var server =http.createServer(function(req,res){
+  if(req.url == '/favicon.con'){
+    return;
+  }
+})
+server.listen(4000,'localhost')
+  1,req
+  使用req.url获取请求地址
+  2.res
+  3.模块
+      http模块
+      url模块
+        ulr.parse(urlStr) 返回值是一个url对象
+      fs模块
+     fs.readFile('path',function(err,data){
+
+     })
+     练习
+     1,新建两个页面分别显示红色的圆形和蓝色方形
+     2,新建js文件 编写服务器内容
+     3，打开浏览器，输入地址
+     localhost:4000/circle 显示圆形
+     localhost：4000/square显示方形
+     其他地址，显示地址错误 
+
+     练习2：
+      1，定义一个form表单页面，form.html,2 个文本输入框，一个username 一个password
+      2，编写服务器代码
+      3，打开浏览器,输入localhost:4000 页面显示form表单的内容
+      4，输入数据点击提交
+      服务端接收数据并返回相应
+      页面显示数据发送成功，服务器控制台打印username和password的值
+
+
+  fs模块
+   1，读取文件，显示
+    1fs.js
+   2,创建文件夹/目录
+    2fs.js
+   3,创建文件
+    3fs.js
+   4，读取文件夹的内容
+    4fs.js
+   5,判断文件的状态
+    5fs.js
+
+  练习3，
+   1,读取一个文件夹a，打印出文件夹中的所有内容
+   2,循环遍历读取到的内容，判断吗每一个file的状态
+     显示效果：
+      1.txt是文件
+      2.html是文件
+      b是文件夹
+      c是文件夹
+
+   3,整合输出
+     显示效果：
+     文件有：
+       1.txt
+       2.html
+       3.js
+      文件夹有：
+       b
+       c
+       d 

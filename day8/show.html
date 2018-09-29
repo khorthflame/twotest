@@ -1,0 +1,17 @@
+<table>
+    <tr>
+        <td><a href="javascript:;" ng-click='a()'>学号</a></td>
+        <td><a href="javascript:;" ng-click='a()'>姓名</a></td>
+        <td><a href="javascript:;" ng-click='a()'>年龄</a></td>
+        <td><a href="javascript:;" ng-click='a()'>性别</a></td>
+        <td><a href="javascript:;" ng-click='a()'>得分</a></td>
+    </tr>
+    
+    <tr ng-repeat='user in users|orderBy:order'>
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.age}}</td>
+        <td>{{user.gender}}</td>
+        <td>{{user.score}}</td>
+     </tr>
+</table>

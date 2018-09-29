@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <meta http-equiv='X-UA-Compatible' content='ie=edge'>
+  <title>Document</title>
+  <script src='./agu/angular.min.js'></script>
+  <script src="./agu/angular-route.js"></script>
+</head>
+<body ng-app='app'>
+  <a href="#/show">显示所有人的基本信息</a>
+  <a href="#/showM">显示所有男性信息</a>
+  <a href="#/student/zhangsan/1101">张三</a>
+  <a href="#/studeng/lisi/1102">李四</a>
+  <a href="#/teache/wangwu/001">王五</a>
+  <!-- 
+    定义三个链接，锚点分别是：
+    #student/zhangsan/1101
+    #/studeng/lisi/1102
+    #/teache/wangwu/001
+    页面下方显示：
+      学生姓名：zhangsan，学号是1101
+      学生姓名：lisi，学号四1102
+      教师姓名：wangwu,工号001
+   -->
+  <div ng-view></div>
+</body>
+<script>
+  var app = angular.module('app', ["ngRoute"]);
+  //定义控制器
+  app.controller("show",function($scope,$http){
+    $scope.a = function(order){
+      //alert(11)
+      //按照score的值对得分进行排序
+      if($scope.order ==order){
+        $scope.order = "-"+order;
+      }else{
+        $scope.order = order;
+      }
+    }
+    //通过$http发送请求，获取数据，将数据绑定后发送给视图。
+    $http({
+      url:"./show.php"
+    }).success(function(result){
+      //绑定数据
+      //JSON.parse()方法：把字符串格式转换成JSON格式对象
+      $scope.users = result;
+    })
+  })
+  app.controller("stuth",function($scope,$http){
+    /* $routeParams */
+    console.log($routeParams);
+  })
+  //配置路由
+  app.config(function($routeProvider){
+    $routeProvider.when("/",{
+      template:"<h1>这是首页</h1>"
+    }).when("/show",{
+      templateUrl:"./show.html",
+      controller:"show"
+    }).when("/showM",{
+      templateUrl:"./showM.html",
+      controller:"showM"
+    })/* .when("/:job/:name/:id",{
+       $routeParams.id; 
+      templateUrl:"./stuth.html",
+      controller:"stuth"
+    }) */
+    .otherwise({
+      redirectTo:"/"
+    }
+    )
+  })
+  //定义控制器
+  app.controller("showM",function($scope,$http){
+    $http({
+      url:"./show.php"
+    }).success(function(result){
+     /*  console.log(result);
+      console.log(typeof result); */
+      $scope.usersexs =[];
+    for(var i =0;i<result.length;i++){
+        if(result[i]['gender']=="M"){
+          $scope.usersexs.push(result[i]);
+      }
+    } 
+    })
+  })
+  
+</script>
+</html>

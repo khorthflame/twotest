@@ -1,0 +1,20 @@
+查询条件：<input type="text">
+姓名：<input type="text" ng-model="name">
+性别：<input type="text" ng-model="gender">
+<table>
+  <tr>
+    <td><a href="javascript:;" ng-click="a('id')">学号</a></td>
+    <td><a href="javascript:;" ng-click="a('name')">姓名</a></td>
+    <td><a href="javascript:;" ng-click="a('age')">年龄</a></td>
+    <td><a href="javascript:;" ng-click="a('sex')">性别</a></td>
+    <!-- 写#会触发锚点，用javascript:;来绑定 -->
+    <td><a href="javascript:;" ng-click="a('score')">得分</a></td>
+  </tr>
+  <tr ng-repeat = "user in users|orderBy:order|filter:{name:name,gender:gender}">
+    <td>{{user.id}}</td>
+    <td>{{user.name}}</td>
+    <td>{{user.age}}</td>
+    <td>{{user.gender}}</td>
+    <td>{{user.score}}</td>
+  </tr>
+</table>

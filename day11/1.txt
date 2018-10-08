@@ -37,3 +37,7 @@ expree的三个常用方法
   编写ejs视图模板
   访问/显示 这是首页
   访问/info 以列表形式显示每个人的姓名
+
+作业：
+ 1，重做formidable上传图片
+ 2 使用express重做formidable

@@ -1,0 +1,55 @@
+1,Express框架
+    1，模板功能
+       01_template.js
+       01_template.ejs
+
+    2,静态文件伺服能力
+       nodejs没有根目录，请求获取资源会导致路径出错，无法正确获取资源
+       静态文件伺服能力，实际上就是express指定一个文件夹，让请求将其当成根目录
+       02_static.js
+       02_static.ejs
+
+    3,路由功能
+       03_route_1.js
+        中间键：get use post
+       get 和 use
+       get和use都可以处理get请求
+       区别：(都忽略大小写)
+         get 是精确匹配
+          /abc 只能处理/abc 不能/a/bc
+         use可以有后续请求
+          /a 可以处理所有/a开头的请求
+             可以处理/a,/a/b,/a/b/c,/a/ab
+             不能处理/ab,/,/a1/a/b
+          / 处理所有请求
+
+        app.use('/',function(req,res){});
+        简写为
+          app.use(function(req,res){});
+
+        中间件的功能：
+         处理代码
+         处理请求和响应
+         终结/结束响应
+         调用下一个中间件(next)
+         03_next.js
+
+        end,send,render
+        共同点：结束请求
+        不同点：
+          end:如果没有参数，则表示快速结束请求
+             如果返回字符串，中文可能出现乱码，需要设置
+             res.writeHead(200,{'Content-Type':'text/html;charset[utf-8'})
+                  常用于测试，参数类型为string，buffer
+                  send：作用与end类似，都用于快速结束请求，但是send会自动设置MIME类型，避免中文乱码
+                  参数类型：string,buffer,json,array
+
+                  render:参数有三个 string，json，function
+                    分布表示：视图模板名称，传递的数据，回调函数
+                    作用：用于渲染页面，根据字符串到views文件夹中查找对应的视图模板
+                    如果不用默认的views文件夹，可以设置
+                    app.set('views','自定义文件夹的路径')
+
+        案例：
+           photos
+           

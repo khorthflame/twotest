@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>留言板</title>
+    <link rel="stylesheet" href="/bootstrap.css">
+    <style>
+        a{text-decoration: none;}
+        
+        li{color:black;
+        list-style: none;
+        text-decoration: none;
+        }
+        img{border-radius:100%;}
+    </style>
+</head>
+<body>
+    <form action="/tijiao">
+       <a href="/toUpload">
+        <% for(var i=0;i<users.length;i++){ %>
+            <% if(users[i].username==username){ %>
+         <img src="<%= users[i].photo %>" alt="" width=75px height="75px">
+            <% } %>
+         <% } %>
+        </a>
+      <br>
+        留言:<br>
+        <textarea name="message" id="" cols="30" rows="3"></textarea>
+        <input type="submit" value="提交">
+        <a href="/logout">退出登录</a>
+    </form>
+    <ul>
+         <% for(var i = 0;i<msg.length;i++){ %>
+        <li>
+            <div>
+               <% for(var j=0;j<users.length;j++){ %>
+                    <% if(msg[i].username==users[j].username){ %>
+                         <img src="<%= users[j].photo %>" alt="" width="75px" height="75px">
+                    <% } %>
+                <%　} %>
+            </div>
+        </li>
+        <li>用户名：<%= msg[i].username %></li>
+        <li>留言： <%= msg[i].message %></li>
+        <li>时间<%= msg[i].time %></li>
+        <% if(msg[i].username==username){ %>
+            <div>
+                    <a href="/del?id=<%= msg[i]._id %>"><button>删除</button></a>
+                    <a href="/update/<%= msg[i]._id %>"><button>修改</button></a>
+               </div>
+        <% } %>
+      
+     <% } %>
+    </ul>
+</body>
+</html>

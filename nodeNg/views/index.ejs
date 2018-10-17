@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="/angular.min.js"></script>
+  <script src="/angular-route.js"></script>
+</head>
+<body ng-app='app'>
+  <a href="#/a">aaa</a>
+  <a href="#/b">bbb</a>
+  <a href="#/c">ccc</a>
+  <div ng-view></div>
+</body>
+<script>
+  var app = angular.module('app',['ngRoute']);
+  app.controller('ctrl',function($scope,$http){
+    // $scope.name = '张三';
+    $http({
+      url:'/sendhttp'
+    }).success(function(result){
+      $scope.name = result;
+    });
+  });
+
+  app.config(function($routeProvider){
+    $routeProvider.when('/',{
+      template:"<h1>首页</h1>"
+    }).when('/a',{
+      templateUrl:"/testa"
+    }).when('/b',{
+      templateUrl:'/ctrl',
+      controller:"ctrl"
+    }).when('/c',{
+      redirectTo:'/'
+    })
+  })
+
+</script>
+</html>

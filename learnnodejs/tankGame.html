@@ -1,0 +1,932 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JavaScript游戏，坦克大战 - 分享JavaScript-sharejs.com</title>
+<meta name="Copyright" content="JavaScript分享网 http://www.sharejs.com/" />
+<meta name="description" content="JavaScript游戏，坦克大战.JavaScript分享网" />
+<meta content="JavaScript,分享,JavaScript代码,Ajax" name="keywords" />
+<style type="text/css">
+	body
+	{
+		background-color:#000000;
+		margin: 0 0 0 0;
+	}
+	div.#main
+	{
+		padding: 0 0 0 0;
+		width:85%;
+		height:90%;
+	}
+</style>
+</head>
+
+<script type="text/javascript">
+var emTankIdx = 3;
+var emTanks = new Array(20);
+var enemies = null;
+if (self.opener == null)
+{
+	self.opener = self;	window.open('./index.html','','toolbar=0,location=0,directories=0,status=1,menubar=0,resizable=0,scrollbars=no,width=700,height=550,left=100,top=30','true');
+	self.close();
+}
+function PageLoad()
+{
+		enemies = document.getElementById("enemies");
+		var oTank = document.createElement("img");
+		oTank.src = Resource.ROOT + Resource.IMG_UNIT_TANKE_NORTH;
+		var oBr = document.createElement("br");
+
+		for(var i = 0; i < emTanks.length; i++)
+		{
+			enemies.appendChild(oTank.cloneNode(true));
+			if(i > 0 && i % 2)
+				enemies.appendChild(oBr.cloneNode(true));
+		}
+
+		document.getElementById("main").style.backgroundImage = 'url('+Resource.ROOT + Resource.IMG_GROUND+')';
+		MapBuilder.build("tree");
+		Seed.minWidth = 8;
+		Seed.maxWidth = 15;
+		MapBuilder.build("water");
+		MapBuilder.place();
+		var myTank = new GameUnit("tanks",1,1,"TankHuman");
+		myTank.Draw(150,460);
+		myTank.whenDead = function()
+		{
+			alert("Game Over! Thanks to play!");
+			self.close();
+		}
+
+		for (var i = 0; i < emTanks.length; i++)
+		{
+			var id = "tank"+i;
+			emTanks[i] = new GameUnit(id,1,1,"TankComputer");
+			emTanks[i].whenDead = function()
+			{
+				killed ++;
+				var c = killed >= 10 ? "" + killed : "0" + killed;
+				var s = c + "00";
+				document.getElementById("score").innerText = s;
+				document.getElementById("count").innerText = c;
+				setTimeout("enemyDestroyed()", 2000);
+			};
+		}
+		emTanks[0].Draw(40,10);
+		emTanks[0].ready(1);
+		emTanks[1].Draw(480,10);
+		emTanks[1].ready(1);
+		emTanks[2].Draw(260,10);
+		emTanks[2].ready(1);
+}
+
+var killed = 0;
+
+function enemyDestroyed()
+{
+	if (emTankIdx < emTanks.length)
+	{
+		var x, y;
+		do
+		{
+			y = 10;
+			x = Math.floor(Math.random() * 3) * 220 + 40;
+			emTanks[emTankIdx].Test(x, y);
+		}while (emTanks[emTankIdx].Overlaped());
+		emTanks[emTankIdx].Draw(x, y);
+		emTanks[emTankIdx].ready(1);
+		emTankIdx ++;
+		for(var i = 0; i < enemies.childNodes.length; i++)
+		{
+			var node = enemies.childNodes[i];
+
+			if(node.tagName.toLowerCase() == "img" && node.style.visibility != "hidden")
+			{
+				node.style.visibility = "hidden";
+				return;
+			}
+		}
+	}
+}
+</script>
+
+<body onload="PageLoad()" onkeydown="">
+
+<div id="main">
+	<div id="_back">
+	</div>
+	<div id="_fore">
+	</div>
+</div>
+<span id="right" style="position:absolute; top:10px; right:20px; color:#FFFFFF; font-size:18px; color:#ffffAC">
+<b>ENEMY:</b><br/></br>
+<div id="enemies">
+
+</div>
+</span>
+<div id="Bar">
+	<span style="margin-left:5px;margin-top:2px; border:3px solid #ff0000; height:20px; width:144px;color:#ffffAC;text-align:right;font-size:18px;"><b id="score">0000</b></span>
+	<span style="margin-left:2px;margin-top:2px; border:3px solid #ff0000; height:20px; width:144px;color:#ffffAC;text-align:right;font-size:18px;"><b id="count">00</b></span>
+	<span style="margin-left:5px;margin-top:2px; border:3px solid #0081ff; height:20px; width:144px;"></span>
+	<span style="margin-left:2px;margin-top:2px; border:3px solid #0081ff; height:20px; width:144px;"></span>
+</div>
+</body>
+<script>
+/***********************************************************************************************************
+* Tankgames  V0.01  Author Akira Wu.
+************************************************************************************************************/
+var Resource = {
+	
+	ROOT : "images/",
+
+	IMG_GROUND : "ground.bmp",
+	IMG_UNIT_TREE : "tree.bmp",
+	IMG_UNIT_WATER : "water.bmp",
+	
+	IMG_UNIT_TANKS_NORTH : "tanks_north.bmp", 
+	IMG_UNIT_TANKS_SOUTH : "tanks_south.bmp",
+	IMG_UNIT_TANKS_WEST : "tanks_west.bmp",
+	IMG_UNIT_TANKS_EAST : "tanks_east.bmp",
+	
+	IMG_UNIT_TANKE_NORTH : "tanke_north.bmp",
+	IMG_UNIT_TANKE_SOUTH : "tanke_south.bmp",
+	IMG_UNIT_TANKE_WEST : "tanke_west.bmp",
+	IMG_UNIT_TANKE_EAST : "tanke_east.bmp",
+
+	IMG_UNIT_BULLET : "hitterg.bmp"
+};
+
+var GameConfig = {
+	TanksSpeed : 3,
+	TankeSpeed : 3,
+	BulletSpeed : 9
+}
+
+var ImageMap = {
+	tree : Resource.IMG_UNIT_TREE,
+	water : Resource.IMG_UNIT_WATER
+};
+
+//单位类型
+var Type = {
+	TankHuman : 0x1,     //我方坦克
+	TankComputer : 0x2,   //敌方坦克
+	BulletHuman : 0x4,     //我方坦克炮弹
+	BulletComputer : 0x8,  //敌方坦克炮弹
+	All : 0xFFFF
+}
+
+function BaseUnit()  //游戏单位
+{
+//判断两个物件或者区域是否相交，若相交，则要么顶点互相包含，要么矩形边界（或对角线）相交
+	BaseUnit.prototype.Intersects = function(obj)   
+	{
+		if (this.pointInside(obj.posx, obj.posy) || 
+			this.pointInside(obj.posx + obj.width * obj.unitWidth, obj.posy) || 
+			this.pointInside(obj.posx, obj.posy + obj.height * obj.unitHeight) ||
+			this.pointInside(obj.posx + obj.width * obj.unitWidth, obj.posy + obj.height * obj.unitHeight))
+		{
+			return true;
+		}
+		else if (obj.pointInside(this.posx, this.posy) || 
+			obj.pointInside(this.posx + this.width * this.unitWidth, this.posy) || 
+			obj.pointInside(this.posx, this.posy + this.height * this.unitHeight) ||
+			obj.pointInside(this.posx + this.width * this.unitWidth, this.posy + this.height * this.unitHeight))
+		{
+			return true;
+		}
+		else if(obj.posx != null && obj.posy != null)//判断矩形对角线相交 |v1 X v2||v1 X v3| < 0
+		{
+			var vector1 = new Object();
+			var vector2 = new Object();
+			var vector3 = new Object();
+
+			vector1.x = this.width * this.unitWidth;
+			vector1.y = this.height * this.unitHeight;  //矩形对角线向量
+
+			vector2.x = obj.posx - this.posx;
+			vector2.y = obj.posy - this.posy;
+
+			vector3.x = vector2.x + obj.unitWidth * obj.width;
+			vector3.y = vector2.y + obj.unitHeight * obj.Height; 
+
+			if((Vector.Cross(vector1, vector2) * Vector.Cross(vector1, vector3)) < 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	BaseUnit.prototype.pointInside = function(x, y)   //判断一个点是否在这个物件内部
+	{
+		if (this.posx == null || this.posy == null)
+		{
+			return false;
+		}
+		if (x >= this.posx && x <= this.posx + this.width * this.unitWidth && y >= this.posy && y <= this.posy + this.height * this.unitHeight)
+		{
+			return true;
+		}
+		return false;
+	}
+	BaseUnit.prototype.getPosition = function()  //返回物件的重心，因为是矩形所以返回中点
+	{
+		var pos = new Array();
+
+		pos.push(this.posx + this.unitWidth * this.width / 2);
+		pos.push(this.posy + this.unitHeight * this.height / 2);
+
+		return pos;
+	}
+	BaseUnit.prototype.isVisible = function()
+	{
+		var obj = document.getElementById(this.id);
+
+		return obj != null && obj.style.display != 'none';
+	}
+	BaseUnit.prototype.Test = function(posx, posy)
+	{
+		this.oldpos = new Array(this.posx, this.posy);
+		this.posx = posx;
+		this.posy = posy;
+	}
+	BaseUnit.prototype.Recover = function()
+	{
+		if (this.oldpos != null)
+		{
+			this.posx = this.oldpos[0];
+			this.posy = this.oldpos[1];
+			return true;
+		}
+		return false;
+	}
+}
+//地图区域类
+function Region(id, width, height, type) 
+{
+	Region.metaData[id] = this;
+	Region.metaData.All.push(this);
+	this.type = type;      
+	this.width = width;     
+	this.height = height; 
+	this.id = id;
+	
+	Region.prototype._parseType = function()
+	{
+		this.imageUrl = Region.mapImages[this.type];
+		switch(type)
+		{
+			case "tree":
+				this.allowPassType = 0;		//规定允许何种类型的Unit通过，0表示不允许任何单位通过
+				this.absorbType = Type.BulletHuman|Type.BulletComputer; //吸收（使消失）何种类型的Unit
+				this.unitWidth = 16;
+				this.unitHeight = 16;
+				break;
+			case "water":
+				this.allowPassType = Type.BulletHuman|Type.BulletComputer;		//规定允许何种类型的Unit通过，0表示不允许任何单位通过
+				this.absorbType = 0;
+				this.unitWidth = 16;
+				this.unitHeight = 16;
+				break;
+			default:
+				this.allowPass = 0xFF;
+				break;
+		}
+	}
+
+	Region.prototype.Draw = function(posx, posy)
+	{
+		//alert(this.id);
+		this.posx = posx;
+		this.posy = posy;
+		var backCanvs = document.getElementById("_back");
+		var newRegion = document.getElementById(this.id);
+	
+		if(newRegion == null) 
+		{
+			newRegion = document.createElement("span");
+			newRegion.id = this.id;
+			backCanvs.appendChild(newRegion);
+		}
+
+		newRegion.style.position = "absolute";
+
+		newRegion.style.left = this.posx;
+		newRegion.style.top = this.posy;
+
+		newRegion.style.width = this.width * this.unitWidth;
+		newRegion.style.height = this.height * this.unitHeight;
+
+		newRegion.style.backgroundImage = "url(" + this.imageUrl + ")";
+	}
+	
+	Region.prototype.Overlaped = function()  //判断是否和其他区域重叠
+	{
+		if (this.posx == null || this.posy == null)
+		{
+			return false;
+		}
+		for (var i = 0; i < Region.metaData.All.length; i++)
+		{
+			if (this == Region.metaData.All[i] || Region.metaData.All[i].posx == null || Region.metaData.All[i].posy == null)
+			{
+				continue;
+			}
+			if (this.Intersects(Region.metaData.All[i]))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	Region.prototype.Dispose = function()
+	{
+		var backCanvs = document.getElementById("_back");
+		var unit = document.getElementById(this.id);
+
+		backCanvs.removeChild(unit);
+		Region.metaData[this.id] = null;
+
+		for (var i = 0; i < Region.metaData.All.length; i++)
+		{
+			if (Region.metaData.All[i].id == this.id)
+			{
+				Region.metaData.All.splice(i, 1);
+			}
+		}
+
+		this.Disposed = true;
+	}
+	this._parseType();
+}Region.prototype = new BaseUnit();
+Region.mapImages = new Array();
+Region.mapImages["tree"] = Resource.ROOT + Resource.IMG_UNIT_TREE;
+Region.mapImages["water"] = Resource.ROOT + Resource.IMG_UNIT_WATER;
+Region.metaData = new Array();
+Region.metaData["RandomRegions"] = new Array();
+Region.metaData.All = new Array();
+
+function GameUnit(id, width, height, type)    //游戏元素 —— 摆放在地图区域上的物件
+{
+	GameUnit.metaData[id] = this;
+	GameUnit.metaData.All.push(this); 
+
+	this.id = id;
+	this.width = width;
+	this.height = height;
+	this.type = type;
+	this.initialized = false;
+	this.Disposed = false;
+	this._time = new Date().getTime();   //活动时间，被一些物件使用，例如判断连续射击等等
+
+	GameUnit.prototype._parseType = function()     //初始化物件
+	{
+		this.imageUrl = GameUnit.mapImages[this.type];
+		switch(type)
+		{
+			case "TankHuman":
+				this.allowPassType = 0;
+				this.absorbType = Type.BulletComputer|Type.BulletHuman; 
+				this.unitWidth = 29;
+				this.unitHeight = 32;
+				document.body.eventHandler = this;
+				document.body.onkeydown = function()
+				{
+					this.eventHandler.KeyDown(this, event);
+				};
+				document.body.onkeyup = function()
+				{
+					this.eventHandler.KeyUp(this, event);
+				};
+				this.direction = "_north";
+				break;
+			case "TankComputer":
+				this.allowPassType = 0;	
+				this.absorbType = Type.BulletHuman|Type.BulletComputer; 
+				this.unitWidth = 26;
+				this.unitHeight = 31;
+				this.direction = "_south";
+				this.AIMode = "normal";
+				break;
+			case "BulletHuman":
+				this.allowPassType = 0;
+				this.absorbType = Type.BulletComputer|Type.BulletHuman|Type.TankComputer;
+				this.unitWidth = 12;
+				this.unitHeight = 12;
+				this.repeatable = "norepeat";
+				this.autoDispose = true;
+				break;
+			case "BulletComputer":
+				this.allowPassType = 0;	
+				this.absorbType = Type.BulletComputer|Type.BulletHuman|Type.TankHuman;
+				this.unitWidth = 12;
+				this.unitHeight = 12;
+				this.repeatable = "norepeat";
+				this.autoDispose = true;
+				break;
+			default:
+				break;
+		}
+	}
+	GameUnit.prototype.Kill = function(obj)  //销毁一个物件
+	{
+		obj.clearInterval();
+		obj.type = 0;
+		obj.dead = true;
+		obj.allowPassType = Type.All;
+		obj.absorbType = 0;
+		obj.KeyDown = obj.KeyUp = function(){};
+		obj.AIMode = 0;
+		obj.Draw(0,0);
+		obj.whenDead();
+	}
+	this.whenDead = function(){}; //物件被销毁后触发的事件，可根据对象重写
+	GameUnit.prototype.KeyUp = function(sender, event)
+	{
+		if (event.keyCode < 37 || event.keyCode > 40)
+		{
+			if (event.keyCode == 32)
+			{
+				clearInterval(this.shooterTimer);
+				this.shooterTimer = null;
+			}
+			return false;
+		}
+		else                           //处理方向键
+		{
+			KeyCodeList.KeysDown.Remove(event.keyCode);
+
+			if (KeyCodeList.KeysDown.getKey() == null)
+			{
+				this.clearInterval();
+			}
+		}
+	}
+	GameUnit.prototype.KeyDown = function(sender, event)
+	{
+		if (event.keyCode >= 37 && event.keyCode <= 40)  //处理方向键
+		{
+			if (KeyCodeList.KeysDown.getKey() == event.keyCode)
+			{
+				return;
+			}
+			KeyCodeList.KeysDown.Put(event.keyCode);
+			this.UnitSpeed = GameConfig.TanksSpeed;
+			if (event.keyCode == 37)  //left
+			{
+				this.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKS_WEST;
+				this.unitWidth = 32;
+				this.unitHeight = 29;
+				this.direction = "_west";
+				this.ready(3);
+			}
+			else if (event.keyCode == 38) //up
+			{
+				this.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKS_NORTH;
+				this.unitWidth = 29;
+				this.unitHeight = 32;
+				this.direction = "_north";
+				this.ready(3);
+			}
+			else if (event.keyCode == 39) //right
+			{
+				this.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKS_EAST;
+				tmp = this.unitWidth;
+				this.unitWidth = 32;
+				this.unitHeight = 29;
+				this.direction = "_east";
+				this.ready(3);
+			}
+			else if (event.keyCode == 40) //down
+			{
+				this.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKS_SOUTH;
+				this.unitWidth = 29;
+				this.unitHeight = 32;
+				this.direction = "_south";
+				this.ready(3);
+			}
+		}
+		if (event.keyCode == 32) //space -- shoot!
+		{
+			if (this.shooterTimer == null)
+			{
+				this.shooterTimer = setInterval("GameUnit.metaData."+this.id+".humanFire()" , 1);
+			}
+		}
+	}
+	GameUnit.prototype.tankFire = function(type, speed)
+	{
+		if (speed == null)
+		{
+			speed = GameConfig.BulletSpeed;
+		}
+		var shootTime = new Date().getTime();
+		//if (GameUnit.metaData["bullet" + this.id] == null || GameUnit.metaData["bullet" + this.id].dead)
+		if (shootTime - this._time >= 500)
+		{
+			this._time = shootTime;
+			var bullet = new GameUnit("bullet" + shootTime,1 ,1 ,type);
+			var pos = this.getPosition();
+			var x = pos[0] - bullet.unitWidth / 2; 
+			var y = pos[1] - bullet.unitHeight / 2;
+			bullet.direction = this.direction;
+			if (this.direction == "_north")
+			{
+				y -= this.unitHeight / 2 + 10;
+			}
+			if (this.direction == "_south")
+			{
+				y += this.unitHeight / 2 + 10;
+			}
+			if (this.direction == "_east")
+			{
+				x += this.unitWidth / 2 + 10;
+			}
+			if (this.direction == "_west")
+			{
+				x -= this.unitWidth / 2 + 10;
+			}
+			bullet.Draw(x, y);
+			bullet.ready(speed);
+			return;
+		}
+		else
+		{
+			return;
+		}
+	}
+	GameUnit.prototype.humanFire = function()
+	{
+		this.tankFire("BulletHuman");
+	}
+	GameUnit.prototype.setInterval = this.readyMove;
+	GameUnit.prototype.clearInterval = function()
+	{
+		clearInterval(this.timer);
+		this.timer = null;
+		this.setInterval = this.readyMove;
+	}
+	GameUnit.prototype.readyMove = function(func)
+	{
+		if(this.timer == null) this.timer = setInterval("GameUnit.metaData."+this.id+"." + func, 10);
+		this.setInterval = function(){};
+	}
+	GameUnit.prototype.ready = function(speed)
+	{
+		if(this.timer == null)	
+		{
+			this.UnitSpeed = speed;
+			this.setInterval("Move();");
+		}
+	}
+	GameUnit.prototype.Move = function()
+	{
+		_AI_seed = 300;
+		if (this.direction == null)
+		{
+			throw new Error("This object cannot move!");
+		}
+		this.Test(this.posx, this.posy);
+		switch(this.direction)
+		{
+			case "_west":
+				if(this.posx > 5) this.posx-=this.UnitSpeed;
+				else 
+				{
+					_AI_seed = 100;					
+					if(this.autoDispose) this.Dispose();
+				}
+				break;
+			case "_north":
+				if(this.posy > 5) this.posy-=this.UnitSpeed;
+				else
+				{
+					_AI_seed = 100;
+					if(this.autoDispose) this.Dispose();
+				}
+				break;
+			case "_east":
+				if(this.posx < 590 - this.unitWidth * this.width) this.posx+=this.UnitSpeed;
+				else
+				{
+					_AI_seed = 100;
+					if(this.autoDispose) this.Dispose();
+				}
+				break;
+			case "_south":
+				if(this.posy < 490 - this.unitHeight * this.height)	this.posy+=this.UnitSpeed;
+				else 
+				{
+					_AI_seed = 100;
+					if(this.autoDispose) this.Dispose();
+				}
+				break;
+			default:
+				throw new Error("Error direction to move!");
+		}
+		var region = this.Region();
+		if (this.meetDeal(region))
+		{
+			_AI_seed = 100;
+		}
+		var unit = this.Unit();
+		if (this.meetDeal(unit))
+		{
+			_AI_seed = 100;
+		}
+		this.Draw(this.posx, this.posy);
+		if (this.AIMode != null)
+		{
+			AIAction.takeAction(this.AIMode,this, _AI_seed);
+		}
+	}
+	GameUnit.prototype.meetDeal = function(obj)  //和物件碰撞后执行的动作
+	{
+		var killObj = false;
+		if (obj == null || obj.Disposed)
+		{
+			return false;
+		}
+		if ((this.absorbType & Type[obj.type]) != 0)
+		{
+			killObj = true;
+		}
+		if ((obj.absorbType & Type[this.type]) != 0)
+		{
+			if (killObj)
+			{
+				this.Kill(obj);
+			}
+			this.Kill(this);
+			return true;
+		}
+		if ((obj.allowPassType & Type[this.type]) == 0)
+		{
+			this.Recover();
+			return true;
+		}
+	}
+	GameUnit.prototype.Draw = function(posx, posy)
+	{
+		if (this.Disposed)
+		{
+			return;
+		}
+		this.posx = posx;
+		this.posy = posy;
+		var foreCanvs = document.getElementById("_fore");
+		var newUnit = document.getElementById(this.id);
+		if(newUnit == null) 
+		{
+			newUnit = document.createElement("span");
+			newUnit.id = this.id;
+			foreCanvs.appendChild(newUnit);
+		}
+		
+		if (this.dead)
+		{
+			newUnit.style.display = 'none';
+		}
+		newUnit.style.position = "absolute";
+		newUnit.style.left = this.posx;
+		newUnit.style.top = this.posy;
+
+		newUnit.style.width = this.width * this.unitWidth;
+		newUnit.style.height = this.height * this.unitHeight;
+
+		if (this.repeatable == "norepeat")
+		{
+			newUnit.style.backgroundRepeat = "no-repeat";
+		}
+	
+		newUnit.style.backgroundImage = "url(" + this.imageUrl + ")";
+	}
+	GameUnit.prototype.Dispose = function()
+	{
+		this.Dispose = function(){};   //该函数只能被执行一次
+		this.AIMode = null;
+		this.Move = function(){};
+		this.clearInterval();
+		var foreCanvs = document.getElementById("_fore");
+		var unit = document.getElementById(this.id);
+
+		foreCanvs.removeChild(unit);
+		//GameUnit.metaData[this.id] = null;
+
+		for (var i = 0; i < GameUnit.metaData.All.length; i++)
+		{
+			if (GameUnit.metaData.All[i].id == this.id)
+			{
+				GameUnit.metaData.All.splice(i, 1);
+			}
+		}
+		this.Disposed = true;
+	}
+	GameUnit.prototype.Region = function() //返回当前所在的区域
+	{
+		for (var i = 0; i < Region.metaData.All.length; i++)
+		{
+			if (this == Region.metaData.All[i])
+			{
+				continue;
+			}
+			if (this.Intersects(Region.metaData.All[i]))
+			{
+				return Region.metaData.All[i];
+			}
+		}
+		return null;
+	}
+	GameUnit.prototype.Unit = function()  //返回当前遇到的物件
+	{
+		for (var i = 0; i < GameUnit.metaData.All.length; i++)
+		{
+			if (this == GameUnit.metaData.All[i])
+			{
+				continue;
+			}
+			if (this.Intersects(GameUnit.metaData.All[i]))
+			{
+				return GameUnit.metaData.All[i];
+			}
+		}
+		return null;		
+	}
+	GameUnit.prototype.Overlaped = function()  //判断是否和其他物件重叠
+	{
+		if (this.posx == null || this.posy == null)
+		{
+			return false;
+		}
+		for (var i = 0; i < GameUnit.metaData.All.length; i++)
+		{
+			if (this == GameUnit.metaData.All[i] || GameUnit.metaData.All[i].posx == null || GameUnit.metaData.All[i].posy == null)
+			{
+				continue;
+			}
+			if (this.Intersects(GameUnit.metaData.All[i]))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	this._parseType();
+}GameUnit.prototype = new BaseUnit();
+GameUnit.mapImages = new Array();
+GameUnit.mapImages["TankHuman"] = Resource.ROOT + Resource.IMG_UNIT_TANKS_NORTH;
+GameUnit.mapImages["TankComputer"] = Resource.ROOT + Resource.IMG_UNIT_TANKE_SOUTH;
+GameUnit.mapImages["BulletHuman"] =  Resource.ROOT + Resource.IMG_UNIT_BULLET;
+GameUnit.mapImages["BulletComputer"] = Resource.ROOT + Resource.IMG_UNIT_BULLET;
+GameUnit.metaData = new Array();
+GameUnit.metaData.All = new Array();
+
+var MapBuilder = new Array(); //地图生成器
+var Seed = new Array();
+Seed.count = 3;
+Seed.minWidth = 3;
+Seed.maxWidth = 12;
+Seed.minHeight = 2;
+Seed.maxHeight = 5;
+
+MapBuilder.build = function(type) //生成区域
+{
+	for (var i = 0; i < Seed.count; i++)
+	{
+		var width = Math.round(Seed.minWidth + (Math.random() * (Seed.maxWidth - Seed.minWidth)));
+		var height = Math.round(Seed.minHeight + (Math.random() * (Seed.maxHeight - Seed.minHeight)));
+
+		Region.metaData.RandomRegions.push(new Region("RandomRegion" + type + i, width, height, type));
+	}
+}
+MapBuilder.place = function() //放置区域
+{
+	for (var i = 0; i < Region.metaData.RandomRegions.length; i++)
+	{
+		var bondx = 490 - Region.metaData.RandomRegions[i].unitWidth * Region.metaData.RandomRegions[i].width;
+		var bondy = 300 - Region.metaData.RandomRegions[i].unitHeight * Region.metaData.RandomRegions[i].height;
+
+		var posx = Math.round((64 + Math.random() * bondx) / 16) * 16;
+		var posy = Math.round((48 + Math.random() * bondy) / 16) * 16;
+
+		Region.metaData.RandomRegions[i].Draw(posx, posy);
+
+		var j = 0;
+		
+		while (Region.metaData.RandomRegions[i].Overlaped() && j++ <= 10)   //如果重叠，尝试摆在其他位置
+		{
+			posx = Math.round((64 + Math.random() * bondx) / 16) * 16;
+			posy = Math.round((48 + Math.random() * bondy) / 16) * 16;
+
+			Region.metaData.RandomRegions[i].Draw(posx, posy);
+		}
+
+		if (Region.metaData.RandomRegions[i].Overlaped())
+		{
+			Region.metaData.RandomRegions[i].Dispose();
+		}
+	}
+}
+
+var KeyCodeList = new Array();
+
+KeyCodeList.KeysDown = new Array();
+KeyCodeList.KeysUp = new Array();
+
+KeyCodeList.KeysDown.Put = function(keyCode)
+{
+	var retVal = KeyCodeList.KeysDown.Remove(keyCode);
+	KeyCodeList.KeysDown.push(keyCode);
+	return retVal;
+}
+KeyCodeList.KeysDown.Remove = function(keyCode)
+{
+	for (var i = 0; i < KeyCodeList.KeysDown.length; i++)
+	{
+		if (KeyCodeList.KeysDown[i] == keyCode)
+		{
+			KeyCodeList.KeysDown.splice(i, 1);
+			return true;
+		}
+	}
+	return false;
+}
+KeyCodeList.KeysDown.getKey = function()
+{
+	if (KeyCodeList.KeysDown.length <= 0)
+	{
+		return null;
+	}
+	else
+	{
+		return KeyCodeList.KeysDown[KeyCodeList.KeysDown.length - 1];
+	}
+}
+
+//向量操作
+var Vector = new Array();
+Vector.Cross = function(v1, v2)
+{
+	return (v1.x * v2.y - v1.y * v2.x);
+}
+Vector.Length = function(v1)
+{
+	return (Math.sqrt(v1.x * v2.x + v1.y * v2.y));
+}
+
+var AIAction = new Array();
+AIAction.takeAction = function(style, obj, seed)
+{
+	self.status = seed;
+	switch(style)
+	{
+		case "normal":
+			var choose = Math.floor(seed * Math.random());
+			if (choose > 0 && choose <= 1)
+			{
+				obj.direction = "_east";
+				obj.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKE_EAST;
+				obj.unitWidth = 31;
+				obj.unitHeight = 26;
+			}
+			else if (choose <= 2)
+			{
+				obj.direction = "_west";
+				obj.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKE_WEST;
+				obj.unitWidth = 31;
+				obj.unitHeight = 26;
+			}
+			else if (choose <= 3)
+			{
+				obj.direction = "_north";
+				obj.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKE_NORTH;
+				obj.unitWidth = 26;
+				obj.unitHeight = 31;
+			}
+			else if (choose <= 4)
+			{
+				obj.direction = "_south";
+				obj.imageUrl = Resource.ROOT + Resource.IMG_UNIT_TANKE_SOUTH;
+				obj.unitWidth = 26;
+				obj.unitHeight = 31;
+			}
+			if (choose >= 30 && choose <= 40)
+			{
+				obj.tankFire("BulletComputer", 3);
+			}
+			break;
+		default:
+			break;
+	}
+}
+</script>
+
+
+<br><br>
+<div align="center"><script language="javascript" src="http://www.sharejs.com/js/720.js"></script>
+<br><br>
+获取更多JavaScript代码，请登录JavaScript分享网 <a href="http://www.sharejs.com">http://www.sharejs.com</a>
+</div>
+</body>
+</html>

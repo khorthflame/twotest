@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../agu/angular.min.js"></script>
+    <script src="../agu/angular-route.js"></script>
+    <style>
+        .a{
+            color:red;
+        }
+    </style>
+</head>
+<div ng-app='app'>
+    <select name="" id="">
+        <option value="">33</option>
+        <option value="">22</option>
+        <option value="">11</option>
+    </select>
+    <div ng-controller='ctrl1'>
+       这是ctrl1的数据data: {{data}}
+        <div ng-show=false>
+            xxxx
+        </div>
+        <div ng-if=''>
+            ng-if
+        </div>
+        <div ng-show=''>
+                ng-show
+         </div>
+         <div ng-class='{a:xx!="1"}'>
+             这是加了红色样式的内容
+         </div>
+    </div>
+    <div ng-controller='ctrl2'>
+      这是ctrl2的数据data:
+      {{data}}
+      <textarea ng-disabled="1+1!==2">
+          1+1=?
+      </textarea>
+
+      <select name="" id="" ng-model='sel'>
+          <option value="html">html</option>
+          <option value="css">css</option>
+          <option value="js">js</option>
+      </select>
+      <ul ng-switch='sel'>
+        <li ng-switch-when='html'>这是html的内容</li>
+        <li ng-switch-when='css'>这是css的内容</li>
+        <li ng-switch-when='js'>这是js的内容</li>
+      </ul>
+    </div>
+    <script>
+        var app = angular.module('app',[]);
+        app.controller('ctrl1',function($scope){
+            $scope.data = '123';
+            $scope.xx=0;
+        })
+        app.controller('ctrl2',function($scope){
+            $scope.data = '456';
+            $scope.data2 = '789';
+        })
+    </script>
+</body>
+</html>

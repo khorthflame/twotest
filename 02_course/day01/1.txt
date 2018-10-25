@@ -1,0 +1,113 @@
+1，JS高级 - ECMAScript + DOM + BOM
+2，回顾第二阶段内容
+    1，基本数据类型
+        Number String Boolean null undefined
+    2,引用类型
+        Array Object 
+    3,内置对象
+        Number String Boolean Array Object Function Math RegExp Date  Global Error
+    
+    面向对象
+     继承 ：通过原型来继承 prototype、
+          1，定义一个构造函数
+            function Student(sname){
+                this.sname = sname;
+                ...
+                Student.prototype.getName = f(){
+                    console.log(this.sname);
+                }
+            }
+          2，把公共方法定义在原型上
+          3，new构造函数
+                var xm = new Student('小猫');
+                new做的事情：
+                    1，创建一个新的空对象
+                    2，构造函数的prototype属性指向它的原型对象，this指向实例化出来的对象xm
+                    3，xm对象的_proto_属性指向原型对象、
+                    4，执行构造函数内部代码
+
+与服务器通信
+  1，http协议
+  2，Ajax
+      
+Ajax的基本概念
+   1，AsynChronous JavaScript And Xml
+     异步的js和xml
+     Ajax是在不刷新浏览器的情况下 浏览器异步的 悄悄地 向服务器发送http请求
+     服务器接收请求 并响应数据 浏览器解析数据 页面实现局部刷新
+Ajax 不是一门新的编程语言 只是一系列web技术的集合
+  优点：用户体验好 异步通信 响应速度快 
+  缺点：存在安全问题 破坏了浏览器的后退机制
+
+ajax原生的使用方法
+   创建5步：
+      1，创建 XMLHttoRequest(ajax的核心对象) 对象
+      它属于bom对象
+      var xhr = new XMLHttpRequest()
+      2，建立连接
+      xhr.open(method,url,async)
+      method:请求地址 get/post
+      url:请求地址
+      asycn:是否发送异步请求
+     3， 发送请求
+        xhr.send(data)
+     4， 监听请求 监听状态改变事件
+      xhr.onreadystatechange = function(){
+          //事件处理函数
+          if(xhr.readyState==4&&xhr.status==200){
+              //拿到响应数据
+               5，处理数据
+               responseText:拿到响应数据
+               
+          }
+          两个属性
+          readyState:通信状态
+          0：请求未建立 还没调用open()
+          1：请求已经建立 但是没有发送
+          2：请求已经发送 但是还在处理
+          3：请求还在处理 响应头部有部分数据可用
+          4：响应已完成
+        status:状态码
+           200: 请求成功
+           404：表示未找到   
+      }
+
+ajax 请求的数据类型
+ 字符串 | XML | json （主要的数据类型)
+ json是js的一个子集 是一种基于文本的数据交换格式
+ 后缀是.json
+ 特点：
+   1，易于程序员的编写与阅读
+   2，json是目前网络上使用最广泛的数据格式 已经替代了XML
+   3，易于计算机的解析和生成
+   支持的数据类型:
+      Number String Array Object    null
+
+创建json文件
+  //数组格式
+["张无忌","赵敏","周芷若"]
+
+//对象
+{
+    "name1":"zhouzhiruo",
+    "name2":"zhangwuji",
+    "name3":"zhaomin"
+}
+    
+数组和对象的结合1
+[
+  {"歌手":"赵磊","演员":"章子怡"},
+  {"歌手":"李俊杰","演员":"洋洋"}
+]   
+    
+数组和对象的结合2
+{
+    "歌手":["林俊杰","周杰伦","谢霆锋"],
+    "演员":["黄碧","地方VHS","收费的"]
+}
+
+json的API (JS)
+  1，JSON.parse():将json字符串 转化为js对象
+  2, JSON.stringify():将js对象转化为json字符串
+
+在客户端构建json格式的字符串

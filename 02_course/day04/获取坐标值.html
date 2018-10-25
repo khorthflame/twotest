@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src='mouseTools.js'></script>
+	<style>
+		/* *{margin:0;padding: 0;} */
+		.point {
+				position: absolute;
+				top: 10px;
+				left: 450px;
+			}
+	</style>
+</head>
+<body>
+	<canvas id="c1" width="400" height="400" style="background:lightyellow"></canvas>
+	<div class="point">
+		<p>mousedown(鼠标点击时坐标)</p>
+		<p>X: <span class="pointX">0</span></p>
+		<p>Y: <span class="pointY">0</span></p>
+		<p>mousemove(鼠标移动时坐标)</p>
+		<p>X: <span class="pointX1">0</span></p>
+		<p>Y: <span class="pointY1">0</span></p>
+		<p>mouseup(鼠标释放时坐标)</p>
+		<p>X: <span class="pointX2">0</span></p>
+		<p>Y: <span class="pointY2">0</span></p>
+	</div>
+	<script>
+	  //获取当前画布的坐标并且绘制圆点
+	  var c1 = document.querySelector('#c1');
+	  var ctx = c1.getContext('2d');
+	  //调用定义的方法
+	  eventMouse.addMouse(c1,mousedown,mousemove,mouseup);
+	  function mousedown(e){
+		  document.querySelector('.pointX').innerHTML = e.points.dx;
+		  document.querySelector('.pointY').innerHTML = e.points.dy;
+
+	  }
+	  function mousemove(e){
+		//不停的绘制圆
+		ctx.clearRect(0,0,400,400);
+		var x = e.points.dx;
+		var y = e.points.dy;
+		ctx.beginPath();
+		ctx.arc(x,y,10,0,Math.PI*2);
+		ctx.fillStyle='red';
+		ctx.fill();
+		ctx.closePath();
+		document.querySelector('.pointX1').innerHTML = e.points.dx;
+		 document.querySelector('.pointY1').innerHTML = e.points.dy;
+	
+	  }
+	  function mouseup(e){
+		document.querySelector('.pointX2').innerHTML = e.points.dx;
+		  document.querySelector('.pointY2').innerHTML = e.points.dy;
+	
+		}
+	</script>
+</body>
+</html>

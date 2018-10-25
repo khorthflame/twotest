@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <h2>
+           form表单提交get请求
+        </h2>
+       <form action="POST">
+           用户名：<input type="text" id='user'><br>
+           密码：<input type="password" id='pwd'><br>
+           <input id="btn" type="button" value="提交表单">
+       </form>
+    <script>    
+       //请求xhr_get.php的内容
+       //var btn = document.querySelector('button');
+    //    可以直接用id名绑定点击事件 不需要获取
+    
+    //    btn.onclick = function(){
+    //        var xhr = new XMLHttpRequest();
+    //        xhr.open('get','xhr_get.php?name='+user.value+'&pwd='+pwd.value);
+    //        xhr.send(null);
+    //        xhr.onreadystatechange = function(){
+    //            if(xhr.readyState==4&&xhr.status==200){
+    //                console.log(xhr.responseText);
+    //            }
+    //        }
+    //    }
+       //把get请求换成post请求
+       btn.onclick = function(){
+           var xhr = new XMLHttpRequest();
+           xhr.open('post','xhr_get.php');
+           xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+           xhr.send('name='+user.value+'&pwd='+pwd.value);
+           xhr.onreadystatechange = function(){
+               if(xhr.readyState==4&&xhr.status==200){
+                   console.log(xhr.responseText);
+               }
+           }
+       }
+    </script>
+</body>
+</html>

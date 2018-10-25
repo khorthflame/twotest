@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">jsonp的 跨域请求</button>
+    <script>
+    //   jsonp的原生实现
+    btn.obnclick = function(){
+        var s = document.createElement('script');
+        s.src = 'http://127.0.0.1:80/02_course/day02/04.php?callback=jsonp';
+        document.body.appendChild(s);
+    }
+    // jsonp请求通过创建一个回调函数来接收参数
+    //追加到页面
+    function jsonp(data){
+        //参数 data 就是响应内容
+        console.log(data);
+    }
+    </script>
+</body>
+</html>

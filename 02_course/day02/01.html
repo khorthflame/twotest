@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+        }
+
+        select,
+        ul {
+            float: left;
+        }
+    </style>
+    <script src="./xhr_tools.js"></script>
+</head>
+
+<body>
+    <select id="prov">
+        <option>请选择</option>
+        <option>江苏省</option>
+        <option>四川省</option>
+        <option>安徽省</option>
+    </select>
+    <ul id="city">
+
+    </ul>
+    <script>
+        //ajax请求取到city.json数据 取到数据 通过前台菜单的省份的选择显示对应的城市
+        var city = document.querySelector('#city');
+        var se = document.querySelector('#prov');
+        se.onchange = function () {
+            //清空之前的li内容
+            city.innerHTML = '';
+            if (this.value.slice(1, -1) == '请选择') {
+                return;
+            }
+
+            xhr({
+                url:'01.php',
+                methods:'post',
+                data:null,
+                success:function (data) {
+
+            
+            //   var xhr = new XMLHttpRequest();
+            //   xhr.open('get','./01.php');
+            //   xhr.send();
+           // xhr.onreadystatechange = function () {
+               // if (xhr.status == 200 & xhr.readyState == 4) {
+                    //console.log(se.value)
+                   //console.log(JSON.parse(xhr.responseText))
+                    var obj = JSON.parse(data);
+                    for (key in obj) {
+                        if (se.value == key) {
+                            for (var i = 0; i < obj[key].length; i++) {
+                                var li = document.createElement('li');
+                                li.innerText = obj[key][i];
+                                city.appendChild(li);
+                            }
+
+                        }
+                    }
+                }})
+               // }
+          //  }
+        }
+    </script>
+</body>
+
+</html>

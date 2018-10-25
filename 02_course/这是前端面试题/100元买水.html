@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    //   var a = 1;
+    //   function fun(){
+         
+    //       var a = 2;
+    //       console.log(a);
+    //   }
+    //   fun();
+    //   console.log(a)
+
+    //100元买汽水 三元一瓶 一个空瓶换一元 
+    //  100/3 100%3
+    //  100/3+100%3  (100/3+100%3)/3
+
+    function w(m){
+        if(m<3){
+            return 0;
+        }
+        var n = Math.floor(m/3);
+        var m1 = n+m%3;
+        return n+w(m1);
+    }
+    console.log(w(100));
+    </script>
+</body>
+</html>

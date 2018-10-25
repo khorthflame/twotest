@@ -1,0 +1,55 @@
+4,JQuery中的jsonp
+  直接使用$.ajax()  方法来发起jsonp请求
+  url,data,type,dataType:请求的数据类型 'json'如果发起jsonp请求 设置dataType为 'jsonp'就可以了，
+  注意:通过创建XMLHttpRequest对象来的 'json'
+      创建script标签来发起请求的 'jsonp'
+   
+   -CORS 跨域资源共享(Cross Oringin Resource Sharing)
+    1,官方给出的跨域解决方案
+    2,CORS 的实现原理:
+       使用自定义的HTTP响应头部信息 
+       设置responseHeaders的字段
+          Access-Control-Allow-Origin:*
+          Access-Control-Allow-Origin:/127.0.0.1
+
+    jsonp用script实现跨域 
+    CORS用xhr实现跨域
+
+    3,具体实现：
+      1，使用cors发起跨域请求和普通的AJax请求是一样的 代码没有什么差别
+      2，在服务器端设置响应头 因此实现CORS的关键是在服务器端 服务器端实现CORS接口 前端就可以跨域请求了
+      
+  jsonp 与 cors的区别
+     1，jsonp支持get请求，而cors支持所有HTTP请求类型
+     2，使用cors 开发者可以使用普通的Ajax请求 让jsonp有更好的错误处理机制
+     3，jsonp主要被老的浏览器支持 cors是所有现代浏览器都支持，除了IE10以下的版本
+                               
+
+template 模板引擎
+      josn格式的数据 转换为js对象 data -> dom
+      遍历 -> 创建dom元素 -> 设置元素内容 
+      我们web开发提倡的原则 减少dom的操作
+      
+      模板引擎的原理
+      1，想要匹配 <%= 内容 %> 我们定义正则:
+      JS 中创建正则表达式
+        var reg = /正则/;
+        var reg = new RegExp('正则');
+      2,正则含义:
+           <% : 以 <% 开始
+           =\s* : 匹配'='后面多个空格
+           ([^%]+\S) : 匹配所有非空格字符
+           \s*%> : 匹配多个空格 以%> 结尾
+           完整的匹配 : reg = /<%=\s*([^%>]+\S)\s*%>/g;
+
+ArtTemplate 腾讯
+模板引擎的用法大同小异,
+用法:
+  1,打入模板插件 template-native.js
+  2,定义模板 
+      <%= 内容 %> <% 逻辑 %>
+  3，读取模板，传入数据
+      var subData = template('模板的ID',数据data);
+  4,设置页面 HTML
+      document.body.innerHTML = subData;
+    

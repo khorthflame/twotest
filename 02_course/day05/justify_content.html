@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+            .d1{
+                /* display: flex; */
+                /* 设置子项排列方式 */
+                /* flex-wrap:nowrap; */
+                /* 简写  代替前面两个属性*/
+              display: flex;
+                justify-content: flex-start;
+            }
+            .d2{
+                display: flex;
+              
+                justify-content: flex-end;
+            }
+            .d3{
+                display: flex;
+                
+                justify-content: center;
+            }
+            .d4{
+                display: flex;
+                
+                justify-content: space-between;
+            }
+            .d5{
+                display: flex;
+                
+                justify-content:  space-around;
+            }
+            .item1,.item2,.item3{
+              width: 120px;
+              height: 200px;
+              background: #BDD8F5;
+              margin:10px;
+              color: #333;
+              text-align: center;
+              font-size: 20px;
+              line-height: 200px;
+            }
+            .d1,.d2,.d3,.d4,.d5{
+              margin:10px;
+             width:620px;
+             height:100%;
+             background: #dddddd;
+            }
+          </style>
+</head>
+<body>
+    <script>
+      //row-direction
+    </script>
+    <div class="d1">
+        <div class="item1">1-1</div>
+        <div class="item2">1-2</div>
+        <div class="item3">1-3</div>
+    </div>
+    <div class="d2">
+        <div class="item1">2-1</div>
+        <div class="item2">2-2</div>
+        <div class="item3">2-3</div>
+    </div>
+    <div class="d3">
+        <div class="item1">3-1</div>
+        <div class="item2">3-2</div>
+        <div class="item3">3-3</div>
+    </div>
+    <div class="d4">
+            <div class="item1">3-1</div>
+            <div class="item2">3-2</div>
+            <div class="item3">3-3</div>
+        </div>
+        <div class="d5">
+                <div class="item1">3-1</div>
+                <div class="item2">3-2</div>
+                <div class="item3">3-3</div>
+            </div>
+</body>
+</html>

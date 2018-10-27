@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log(new Date().getTime()+5*24*3600*1000)
+        //存储的目标是对象
+        var obj = {
+            sname:'小猫',
+            sage:22,
+            swork:'前端开发'
+        }   
+        //localStorage.setItem(key,value);
+        var data = JSON.stringify(obj);
+        document.write(data);
+        localStorage.setItem('xm',data);
+        //取数据
+       var xmData =  localStorage.getItem('xm');
+       console.log(xmData);
+       //封装一个方法 存储数据都是对象的格式
+       var myLS = {
+           //取数据方法
+            get:function(key){
+                var val =  JSON.parse(localStorage.getItem(key));
+                if(!val){
+                    return new Error('key不存在');
+                }
+                
+                //判断有没有过期 当前时间和endTime进行比较
+                if(new Date().getTime()>val.endTime){
+                    val = null;
+                    localStorage.removeItem(key);
+                }
+               return val.data;
+            },
+            //设置值 days是设置有效时间
+            set:function(key,value,days){
+                var item = {
+                    data:value   
+            }
+            //判断days参数是否存在
+                if(days){
+                    item.endTime = new Date().getTime()+days*24*3600*1000//单位是ms 毫秒
+                }
+              localStorage.setItem(key,JSON.stringify(item))
+            }
+     }
+        //使用myLS
+        // myLS.set('xh',{
+        //     sname1:'小狗',
+        //     sage1:23
+        // },5)
+        console.log(myLS.get('xh'));
+    </script>
+</body>
+</html>

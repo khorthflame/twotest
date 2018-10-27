@@ -1,0 +1,84 @@
+web 存储 (h5) IndexDB 
+ h5给我们新增了两个本地存储的API 分别是localStorage,sessionStorage.
+ localStorage的特点:
+ (1) 可以长期保存数据
+ (2) 保存数据最大 5MB
+ (3) 只能在客户端使用 不和服务器通信
+ (4)接口封装较好
+
+ localStorage 的API
+   (1)读取值: localStorage.getItem(key);
+   (2)设置值：localStorage.setItem(key,value);
+   (3)删除值：localStorage.removeItem(key);
+   (4)获取指定的key:localStorage.key(index);
+   (5)删除全部: localStorage.clear();全部删除
+    
+3.sessionStorage特点:
+   保存的数据用于浏览器的一次会话 当会话结束 数据被清除 它的API和localStorage是一样的 使用方式也一样
+    sessionStorage可以有效的对表单信息进行维护 比如刷新表单 数据不丢失
+   
+web移动端
+   移动端的开发 大致分为两种
+    1,h5页面 / webApp(vue)
+    2,app （React-native(react)/weex(vue))
+    页面运行在移动端设备上  web移动端开发
+       1，设备 : 智能手机
+       2，操作系统 : IOS windowPhone 安卓 塞班 黑莓 
+       3，浏览器  safari chrome uc qq 百度 搜狗 360
+       4，浏览器内核 webkit 
+
+移动端事件 - touch
+  移动端有一组touch事件
+     touchstart:开始触摸
+     touchmove: 滑动
+     touchend: 触摸结束
+     touchCancel:被迫结束滑动
+
+移动端布局 Flex 
+     w3c 官方称为css弹性盒子布局(Flexbox)  是在css3中定义的新的布局模式
+      1，flexbox 可以控制在容器内的子元素的排列方式 对齐方式 排序顺序 即使子元素的尺寸是未知的或者动态的
+      情况
+      2，flexbox特点 ： 简单灵活 几行代码就可以实现页面的布局
+      3，flexbox 的组成：
+         有两个部分组成:(container)和容器内的直接子元素(flexitem)
+         任何一个容器都可以指定为flex布局 这样容器内部的元素就可以使用flex来布局
+         学习flex就是学习容器属性和子项属性
+          Container(容器): 
+         (1) diaplay:flex/inline-flex;
+          (2) flex-direction: 主要决定了子项在容器中的排列方式
+              row|row-reverse|column|column-reverse
+              row:表示子项横向从左向右排列(默认)
+              row-reverse:横向从右向左排列
+              column：以纵向且从上往下排列
+              column-reverse:以纵向且从下往上排列
+
+          (3)flex-wrap : nowrap|wrap|wrap-reverse
+             是否让容器内的子项保持在一行
+             nowrap:容器内的子项是在一行(默认)
+             wrap:和nowrap相反
+             wrap-reverse: 换行+反向排列
+           (4)flex-flow:该属性是flex-direction和flex-wrap属性的简写方式
+           （5) justify-content:flex-start|flex-end|flex-center|space-between|space-around
+            该属性是决定子项的对齐方式
+             flex-start:子项在横轴开始方向的对齐
+             flex-end:子项在横轴结束方向的对齐
+             center:子项在横轴居中的对齐
+             space-between:子项在横轴两端对齐
+             space-around:子项在横轴等间距对齐
+
+             子项(flex item)上的属性:
+               (1)order:int 该属性接收一个整数值 (负数也生效),数值由小到大排序
+               (2)flex-grow:默认值 0 
+                   该属性的值是整数 负数无效 决定了该子项占用多少容器内可用空间
+               (3)flex-shrink: 默认值为1
+                   定义了子项的缩小比例：如果容器空间不足 该子项将缩小 负值无效
+               (4)flex-basis:默认值 auto
+                指定子项的宽度。单位是px
+               (5) flex:它是flex-grow|flex-shrink|flex-basis的简写方式 默认值 flex:0 1 auto
+                 建议使用flex属性 代码更简洁 
+               (6) align-self: auto | flex-start | flex-end |center|baseline|stretch
+               该属性允许单个子项与其他子项有不同的对齐方式 默认值auto
+               (7)在flex-box布局中 float clear vertical-align 属性对子项均不生效
+               
+               作业：让一个元素在父元素中水平垂直居中对齐
+                  三种实现方式

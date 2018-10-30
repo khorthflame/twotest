@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+       var number = [5,458,120,-12];
+       var max = Math.max.apply(this,number);
+       var max1 = Math.max.call(this,5,562,576);
+       console.log(max+'===='+max1);//注意这两个传的参数不同
+    </script>
+</body>
+</html>

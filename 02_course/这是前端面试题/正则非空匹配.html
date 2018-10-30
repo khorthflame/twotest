@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var obj = ' asffg g';
+        //console.log(obj.match(/\S+?/g));
+        console.log(obj.match(/(ffg)/g));
+        console.log(obj.match(/\s*\S/g));//[" a", "s", "f", "f", "g", " g"]
+        console.log(obj.match(/\s*\S*/g));//[" asffg", " g", ""]
+       var str = '违反DSad它让我dttg<%= staynight %>df%>生yrt态股份通过<%= healt   %>';
+      // console.log(str.match(/\s*/g))
+    console.log(str.match(/<%=\s*\S*\s*%>/g))
+    </script>
+</body>
+</html>

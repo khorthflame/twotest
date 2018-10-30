@@ -20,15 +20,15 @@
     var d1 = document.querySelector('.d1');
     d1.addEventListener('touchstart',function(e){
         //浏览器传递的e
-        console.log(e.touches[0].pageX)
+        console.log(e.touches[0].pageX);
     })
     d1.addEventListener('touchmove',function(e){
         //浏览器传递的e
-       console.log(e.touches[0].pageX)
+       console.log(e.touches[0].pageX);
     })
     d1.addEventListener('touchend',function(e){
         //浏览器传递的e //不能使用touches
-        console.log(e.changedTouches[0].pageY)
+        console.log(e.changedTouches[0].pageY);
     })
 </script>
 </body>

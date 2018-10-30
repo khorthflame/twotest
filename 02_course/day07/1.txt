@@ -1,0 +1,79 @@
+响应式页面（BootStrap)
+ 什么是响应式页面?
+   可以在各种不同的分辨率和不同尺寸的设备下浏览页面 并且有不错的体验
+   如何编写响应式 
+    1,设置meta标签 viewport(适口)
+    2，避免决定单位(px) 使用相对单位 (% em auto rem)
+    3,使用流式布局(float)
+    4,图片大小自适应:img{max-width:100%}
+    5,媒体查询 CSS Media Query 技术
+
+3，Media  Query
+   根据浏览器屏幕特征有选择的执行css样式
+   Media: 媒体 指的是浏览页面的设备 (pad phone pc tv 屏幕阅读器。。。)
+   Query：查询 查询当前浏览设备的特性 宽 高 分辨率 类型 根据这些特性执行不同的css
+    用法：
+      @media screen and (max-width:990px) and (min-width:679px){
+          div{
+              background:red;
+          }
+      }
+
+      @media screen and (min-width:990px){}
+
+Twitter - BootStrap
+  1,他是一个css样式框架 适用于制作移动端优先的响应式页面
+  2，使用bootstrap提供的模板 - Bootcss.com
+  3,boot注意涉及了哪些内容?
+      1,html: 为h5已有标签扩展了一些自定义属性. xml
+            data-属性名 data-toggle='值1'
+      2,css : CSS Reset  +  上千个class  class = 'btn'
+      3,JS: 基于jquery提供了十几个插件 
+
+
+      全局css样式  Grid Layout 栅格系统
+         1,所有的行和列必须放在容器中(.container .container-fluid)
+         2,容器分为多行row  一行分为十二列col
+         3,网页内容只能放在col中 不要直接放在row里面
+         4，col中可以再嵌套row row里面继续嵌套行
+         5，col分为四类 ： col-lg  col-md col-sm col-xs
+         6,col-md-n: n的范围是1~12  col-md-12 col-md-6
+         7,可以为一个列指定不同屏幕下的不同宽度
+                    屏幕宽度             container容器宽度 
+                 >1200    超大pc(lg)           1170px;
+                 1200~992 普通pc(md)           970px;
+                 992px~768px  sm               750px;
+                 <768px       xs                auto;
+                 
+                 container-fluid                auto;(自适应 100%)
+
+          8，隐藏col 
+            hidden-lg  在超大pc下隐藏
+            hidden-md  在中等pc下隐藏
+            hidden-sm  在sm下隐藏
+            hidden-xs  在xs下隐藏
+
+          9，偏移
+             col-md-offset-n  当前偏移的列数 n的值范围1~12之间
+         
+         Bootlint 工具
+         他是一个检测工具 boot官方提供 来检测boot页面的html css错误
+                  (默认情况下检测不出来)
+
+         用法：
+        
+        组件-图标字体
+           1,图标字体 ： boot提供了glyphicons图标字体来供我们使用 250+
+           2，图标字体本值不是图片 是字体 凡是可以用字体的地方都可以用图标
+           3，glyphicons图标字体只能用于空元素 - 不包含子元素或者内容的元素
+                        一般用<span class='glyphicon'></span>
+         
+        下拉菜单
+         html结构
+           相对定位的父元素
+           <div>
+             <a class='btn' data-toggle='dropdown'>触发按钮</a>
+             <ul> 绝对定位
+                <li></li>
+             </ul>
+           </div>

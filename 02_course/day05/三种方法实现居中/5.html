@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+       .aa{
+           width:100px;
+           height:100px;
+           background: red;
+       }
+    </style>
+</head>
+<body>
+    <div class="aa"></div>
+    <script>
+      var obj = document.querySelector('.aa');
+      obj.addEventListener('touchstart',function(e){
+        console.log(e);
+      })
+    //   obj.addEventListener('touchmove',function(e){
+    //     //浏览器传递的e
+    //    console.log(e.touches[0].pageX);
+    // })
+    // obj.addEventListener('touchend',function(e){
+    //     //浏览器传递的e //不能使用touches
+    //     console.log(e.changedTouches[0].pageY);
+    // })
+    </script>
+</body>
+</html>

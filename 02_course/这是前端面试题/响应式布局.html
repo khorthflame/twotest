@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .a div{
+            float: left;
+            display: inline-block
+        }
+         .a .a1{
+              width:33%;
+              height:50px;
+              background:red;
+          }
+          .a .a2{
+              width:33%;
+              height:50px;
+              background:blue;
+          }
+          .a .a3{
+              width:33%;
+              height:50px;
+              background:yellow;
+          }
+      @media screen and (max-width:800px){
+          .a .a1{
+              width:33%;
+              height:50px;
+              background:yellow;
+          }
+          .a .a2{
+              width:33%;
+              height:50px;
+              background:black;
+          }
+          .a .a3{
+              width:33%;
+              height:50px;
+              background:red;
+          }
+      }
+    </style>
+</head>
+<body>
+    <div class="a">
+            <div class="a1"></div>
+            <div class="a2"></div>
+            <div class="a3"></div>
+    </div>
+
+</body>
+</html>
